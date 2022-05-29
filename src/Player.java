@@ -1,6 +1,7 @@
 public class Player {
     private static Player player1 = null;
     private static Player player2 = null;
+    private static int playerCount = 0;
 
     private char token;
     private String name;
@@ -15,9 +16,14 @@ public class Player {
     }
 
 
+    public static int getPlayerCount() {
+        return playerCount;
+    }
+
     private Player(char token, String name){
         this.token = token;
         this.name = name;
+        playerCount++;
     }
     public static Player createPlayer( String name) throws NoMorePlayersAllowedException{
         if(player1 == null) {

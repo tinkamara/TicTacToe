@@ -6,13 +6,13 @@ public class TicTacToeField {
     public TicTacToeField(){
       field = new char[3][3];
     }
-    public void setToken(int column, int row, char token) throws InvalidIndexException,FieldAlreadyOccupiedException {
-        if (column > 3 || row > 3) {
+    public void setToken(int row, int column, char token) throws InvalidIndexException,FieldAlreadyOccupiedException {
+        if (column > 2 || row > 2) {
             throw new InvalidIndexException();
-        } else if (field[column][row] != Character.MIN_VALUE) {
+        } else if (field[row][column] != Character.MIN_VALUE) {
             throw new FieldAlreadyOccupiedException();
         } else {
-            field[column][row] = token;
+            field[row][column] = token;
         }
     }
 

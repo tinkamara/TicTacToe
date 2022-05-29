@@ -20,21 +20,21 @@ public class TicTacToeGame {
         return roundCounter;
     }
 
-    public TicTacToeGame(String name1, String name2) {
-        try {
+    public TicTacToeGame(String name1, String name2) throws NoMorePlayersAllowedException{
             field = new TicTacToeField();
             player1 = Player.createPlayer(name1);
             player2 = Player.createPlayer(name2);
             activePlayer = player1;
-        } catch (Exception e) {
 
-        }
 
 
     }
 
-    public void playRound(int column, int row) throws FieldAlreadyOccupiedException, InvalidIndexException {
-            field.setToken(column, row, activePlayer.getToken());
+    public void playRound(int row, int column) throws FieldAlreadyOccupiedException, InvalidIndexException, NotEnoughPlayersException {
+        if(Player.getPlayerCount() < 2){
+            throw new NotEnoughPlayersException();
+        }
+            field.setToken(row, column, activePlayer.getToken());
         roundCounter++;
     }
     public void swapPlayer(){

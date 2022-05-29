@@ -3,38 +3,42 @@ import java.util.Scanner;
 public class Game {
 
         public static void main(String[] args) {
-            Scanner eingabe = new Scanner(System.in);
+            Scanner in = new Scanner(System.in);
             System.out.println("Hallo Spieler!");
             System.out.println("Spieler 1, gib deinen Namen ein:");
-            String name1 = eingabe.next();
+            String name1 = in.next();
             System.out.println("Spieler 2, gib deinen Namen ein:");
-            String name2 = eingabe.next();
-            TicTacToeGame game = new TicTacToeGame(name1, name2);
+            String name2 = in.next();
+
+            try {
+                TicTacToeGame game = new TicTacToeGame(name1, name2);
+
 
 
             boolean isWon = false;
-            Player currentplayer = null;
+            Player currentPlayer;
             while( !isWon & game.getRoundCounter() < 9 ){
-                currentplayer = game.getActivePlayer();
+                currentPlayer = game.getActivePlayer();
                 game.printField();
-                System.out.println(currentplayer.getName() + "! Dein Token ist " + currentplayer.getToken() );
+                System.out.println(currentPlayer.getName() + "! Dein Token ist " + currentPlayer.getToken() );
 
                 System.out.println("Gib die Zeile ein:");
-                int column = eingabe.nextInt();
+                int row = in.nextInt();
                 System.out.println("Gib die Spalte ein:");
-                int row = eingabe.nextInt();
+                int column = in.nextInt();
                 try {
-                    game.playRound(column, row);
+                    game.playRound(row, column);
 
                 } catch (FieldAlreadyOccupiedException faoe){
-                    System.out.println("Feld bereits auf dem Spielfeld besetzt!");
+                    System.out.println(faoe.getMessage());
                     continue;
 
-                } catch(InvalidIndexException iie){
-                    System.out.println("Feld nicht auf dem Spielfeld!");
+                } catch(InvalidIndexException iie) {
+                    System.out.println(iie.getMessage());
                     continue;
-
-
+                }catch(NotEnoughPlayersException nepe) {
+                    System.out.println(nepe.getMessage());
+                    System.exit(4);
                 }
                 isWon = game.checkRows() || game.checkColumns() || game.checkDiagonal();
                 game.swapPlayer();
@@ -45,6 +49,10 @@ public class Game {
 
             }else{
                 System.out.println("Unentschieden!");
+            }
+            }catch(NoMorePlayersAllowedException nmpae){
+                System.out.println(nmpae.getMessage());
+                System.exit(4);
             }
 
         }
